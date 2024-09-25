@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title %>
+    </title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/styles/style.css" />
+</head>
+
+<body>
+    <%- include('_partial/header') %>
+
+        <form action="">
+            <div>
+                <label for="email">Email: </label> <input type="text" name="email"><br>
+                <label for="password">Password: </label> <input type="password" name="password"><br>
+                <input type="submit" value="Enviar">
+            </div>
+        </form>
+
+        <%- include('_partial/footer') %>
+</body>
+
+</html>
