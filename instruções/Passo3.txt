@@ -1,0 +1,10 @@
+1 Dentro da pasta "Views", criar uma pasta: "_partial"
+    Dentro de "_partial" criar um arquivo: "header.ejs"
+2 Copiar dentro do arquivo index o código desde a primeira linha até o o fim do header Dentro de "./_partial" 
+3 Alterar titulo <title>Projeto VULCOM : :<%= title %></title> - Linha 7
+4 Fazer o código do body a fim de ficar como esta
+5 Criar um arquivo dentro de "_partial" com nome "footer.ejs"
+6 Criar dentro da pasta "Views" a pasta "sql_injection"
+    Dentro de sql_injection criar um arquivo "login.ejs"
+        Fazer código do "login.ejs"
+
