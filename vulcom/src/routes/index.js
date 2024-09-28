@@ -3,7 +3,7 @@ const router = Router()
 
 /* GET home page. */
 router.get('/', function (req, res) {
-  res.render('index', { title: 'the Jungle' })
+  res.render('index', { title: 'Vulcom' })
 })
 
 export default router
