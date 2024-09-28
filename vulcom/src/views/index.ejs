@@ -1,28 +1,9 @@
-<!DOCTYPE html>
-<html>
+<%- include('_partial/header') %>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>
-    <%= title %>
-  </title>
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="stylesheet" href="/styles/style.css" />
-</head>
+<h1><%= title %></h1>
+<p>Welcome to <%= title %></p>
+<ul>
+  <li> <a href="/sql-injection">SQL Injection</a> </li>
+</ul>
 
-<body>
-  <%- include('_partial/header') %>
-
-    <h1>
-      <%= title %>
-    </h1>
-    
-    <p>Welcome to <%= title %>
-    </p>
-
-    <%- include('_partial/footer') %>
-</body>
-
-</html>
+<%- include('_partial/footer') %>

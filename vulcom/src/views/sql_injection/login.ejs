@@ -1,29 +1,28 @@
-<!DOCTYPE html>
-<html>
+<%- include('_partial/header') %>
+<%- include('../_partial/header') %>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-        <%= title %>
-    </title>
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="/styles/style.css" />
-</head>
+<h1>Vulnerabilidade SQL Injection</h1>
 
-<body>
-    <%- include('_partial/header') %>
+<form>
+  <div style="color: red"><%= message %></div>
+  <div>
+    <label>
+      <span>Usuário:</span>
+      <input name="username">
+      <input name="username" value="<%= username %>">
+    </label>
+  </div>
+  <div>
+    <label>
+      <span>Senha:</span>
+      <input name="password">
+      <input type="password" name="password" value="<%= password %>">
+    </label>
+  </div>
+  <div>
+    <button type="submit">Enviar</button>
+  </div>
+</form>
 
-        <form action="">
-            <div>
-                <label for="email">Email: </label> <input type="text" name="email"><br>
-                <label for="password">Password: </label> <input type="password" name="password"><br>
-                <input type="submit" value="Enviar">
-            </div>
-        </form>
-
-        <%- include('_partial/footer') %>
-</body>
-
-</html>
+<%- include('_partial/footer') %>
+<%- include('../_partial/footer') %>
