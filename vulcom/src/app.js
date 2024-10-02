@@ -1,12 +1,10 @@
+import 'dotenv/config'
 import express, { json, urlencoded } from 'express'
 import createError from 'http-errors'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
-
-import dotenv from 'dotenv'
-dotenv.config()  // Carrega as variáveis de ambiente do arquivo .env
 
 
 
