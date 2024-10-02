@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import express, { json, urlencoded } from 'express'
 import createError from 'http-errors'
 import cookieParser from 'cookie-parser'
@@ -5,8 +7,8 @@ import logger from 'morgan'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
-import dotenv from 'dotenv'
-dotenv.config()  //Carrega as variáveis de ambiente do arquivo .env
+//import dotenv from 'dotenv'
+//dotenv.config()   // Carrega as variáveis de ambiente do arquivo .env
 
 import indexRouter from './routes/index.js'
 //import usersRouter from './routes/users.js'
@@ -26,13 +28,13 @@ app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(join(__dirname, '../public')))
 
-/********************** ROTAS ************************/
+/***************** ROTAS ****************************/
 
 app.use('/', indexRouter)
 //app.use('/users', usersRouter)
 
 import sqlInjectionRouter from './routes/sql-injection.js'
-app.use('sql-injection', sqlInjectionRouter)
+app.use('/sql-injection', sqlInjectionRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
