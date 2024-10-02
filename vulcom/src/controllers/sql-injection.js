@@ -16,8 +16,7 @@ controller.processLogin = async function(req, res) {
 
     // Usando concatenação de valores em SQL de forma
     // insegura para reproduzir SQL Injection
-    const sql = `select * from users where username = '${req.body.username}'
-      and password = '${req.body.password}'`
+    const sql = `select * from users where username = '${req.body.username}' and password = '${req.body.password}'`
 
     console.log('-'.repeat(80))
     console.log(sql)
@@ -25,7 +24,7 @@ controller.processLogin = async function(req, res) {
     
     const result = await conn.query(sql)
 
-    if(result) res.render('sql-injection/success', { title: 'Autenticado' })
+    if(result.rowCount > 0) res.render('sql-injection/success', { title: 'Autenticado' })
     else res.render('sql-injection/login', {
       title: 'Autentique-se',
       username: req.body.username,
