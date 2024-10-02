@@ -1,4 +1,4 @@
-import sql from '../database/db.js'
+import conn from '../database/db.js'
 
 const controller = {}
 
@@ -20,7 +20,7 @@ controller.processoLogin = async function(req, res) {
             and password = '${req.body.password}`
         ])
 
-        if(result) res.render('sql-injection/success', { title: 'Autenticado'})
+        if(result.rowCount > 0) res.render('sql-injection/success', { title: 'Autenticado'})
         else res.render('sql-injection/login', {
             title: 'Autentique-se',
             username: req.body.username,
