@@ -1,4 +1,4 @@
-import sql from '../database/db.js'
+import conn from '../database/db.js'
 
 const controller = {}
 
@@ -15,6 +15,14 @@ controller.processLogin = async function(req, res) {
   try{
     // Usando concatenação de valores em SQL de forma
     // insegura para reproduzir SQL Injection
+
+    const sql = `select * from users where username = '${req.body.username}' and passaword = '${req.body.username}'`
+
+    console.log('_')
+    console.log
+    console.log
+
+
     const result = await sql([
       `select * from users where username = '${req.body.username}'
       and password = '${req.body.password}'`
