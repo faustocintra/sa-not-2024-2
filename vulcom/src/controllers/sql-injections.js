@@ -1,4 +1,4 @@
-import sql from "../database/db";
+import coon from "../database/db";
 
 const controller = {};
 
@@ -14,7 +14,7 @@ controller.login = (req, res) => {
 controller.processLogin = async (req, res) => {
   try {
     // Usando concatenação de valores em SQL de forma insegura para reproduzir SQL Injection
-    const result = await sql([
+    const result = await coon([
       `select * from users where username = '${req.body.username}' and password = '${req.body.password}'`,
     ]);
 
