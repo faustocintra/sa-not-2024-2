@@ -1,6 +1,7 @@
-import postgres from 'postgres'
+import pg from 'pg'
+const { Pool } = pg
 
-const sql = postgres(process.env.DATABASE_URL)
+const conn = new Pool ({ connectionString: process.env.DATABASE_URL })
 
-export default sql
 
+export default conn
