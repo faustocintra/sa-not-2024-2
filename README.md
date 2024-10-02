@@ -44,5 +44,14 @@ Após clonar o repositório executamos o seguinte processo:
 - Em seguida, no terminal, instalamos novas bibliotecas para utilizar o banco de dados:
 
     ```bash
-    npm install dotenv postgres
+    npm install dotenv pg
+
     ```
+
+- Após o último commit é possivel fazer SQLInjection através do formulário como:
+
+    ```sql
+    ' or 1=1; drop table users; --
+    ```
+    > [!NOTE]
+    > Nesta situação, estamos deletando a tabela users.
