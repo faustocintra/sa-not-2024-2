@@ -1,43 +1,47 @@
-import sql from '../database/db.js'
+import conn from '../database/db.js'
 
 const controller = {}
-controller.login = function (req, res) {
-    res.render('sql-injection/login', {
-        title: 'Autentique-se',
-        username: '',
-        password: '',
-        message: ''
-    })
+
+controller.login = function(req, res) {
+  res.render('sql-injection/login', {
+    title: 'Autentique-se',
+    username: '',
+    password: '',
+    message: ''
+  })
 }
-controller.processLogin = async function (req, res) {
-    const username = req.body.username
-    const password = req.body.password
+
+controller.processLogin = async function(req, res) {
+  try{
+
+    // Usando concatenação de valores em SQL de forma
+    // insegura para reproduzir SQL Injection
+    const sql = `select * from users where username = '${req.body.username}'
+      and password = '${req.body.password}'`
+
+    console.log('-'.repeat(80))
+    console.log(sql)
+    console.log('-'.repeat(80))
     
-    try {
+    const result = await conn.query(sql)
 
-        const result = await sql([`SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`])
-
-        if (result) res.render('sql-injection/login', { title: 'Autentique-se', })
-        else res.render('sql-injection/login',
-            {
-                title: 'Autentique-se',
-                username: username,
-                password: password,
-                message: 'Usário ou senha inválidos'
-            })
-
-    } catch (error) {
-        console.log(error)
-        res.render('sql-injection/login',
-            {
-                title: 'Autentique-se',
-                username: username,
-                password: password,
-                message: 'Usário ou senha inválidos'
-            })
-
-    }
-
+    if(result) res.render('sql-injection/success', { title: 'Autenticado' })
+    else res.render('sql-injection/login', {
+      title: 'Autentique-se',
+      username: req.body.username,
+      password: req.body.password,
+      message: 'Usuário ou senha inválidos'
+    })
+  }
+  catch(error) {
+    console.error(error)
+    res.render('sql-injection/login', {
+      title: 'Autentique-se',
+      username: req.body.username,
+      password: req.body.password,
+      message: error.message
+    })
+  }
 }
 
 export default controller
