@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import express, { json, urlencoded } from 'express'
 import createError from 'http-errors'
 import cookieParser from 'cookie-parser'
@@ -5,11 +7,8 @@ import logger from 'morgan'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
-import dotenv from 'dotenv'
-dotenv.config() // carrega as variáveis de ambiente do arquivo .env
-
 import indexRouter from './routes/index.js'
-//import usersRouter from './routes/users.js'
+// import usersRouter from './routes/users.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -33,6 +32,9 @@ app.use('/', indexRouter)
 
 import sqlInjectionRouter from './routes/sql-injection.js'
 app.use('/sql-injection', sqlInjectionRouter)
+
+import xssRouter from './routes/xss.js'
+app.use('/xss', xssRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

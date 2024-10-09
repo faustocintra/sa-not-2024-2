@@ -2,22 +2,20 @@
 
 <h1>Vulnerabilidade SQL Injection</h1>
 
-<form>
+<form method="POST" action="/sql-injection">
   <div style="color: red"><%= message %></div>
   <div>
     <label>
-      <span>Usuário: </span>
-      <input type="text" name="username" value="<%= username %>" />
+      <span>Usuário:</span>
+      <input name="username" value="<%= username %>">
     </label>
   </div>
-
   <div>
-    <label for="">
-      <span>Senha: </span>
-      <input type="password" name="password" value="<%= password %>" />
+    <label>
+      <span>Senha:</span>
+      <input type="password" name="password" value="<%= password %>">
     </label>
   </div>
-
   <div>
     <button type="submit">Enviar</button>
   </div>
