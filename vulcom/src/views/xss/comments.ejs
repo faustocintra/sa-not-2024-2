@@ -1,0 +1,38 @@
+<%- include('../_partial/header') %>
+<h1>XSS (Cross-Site Scripting)</h1>
+<form method="POST" action="/xss">
+  <div style="color: red"><%= error %></div>
+    <div>
+        <label>
+            <span>Comentário:</span>
+            <textarea name="comment" cols="50" rows="5"></textarea>
+        </label>
+    </div>
+    <div>
+        <button type="submit">Enviar</button>
+    </div>
+</form>
+
+<hr>
+
+<table>
+    <% for(let comment of comments) { %>
+        <tr>
+            <td><%- comment.id %></td>
+            <td><%- comment.comment %></td>
+            <td><%= comment.date_time.toLocaleDateString('pt-BR') %> <%= comment.date_time.toLocaleTimeString('pt-BR') %></td>
+        </tr>
+    <% } %>
+</table>
+
+<style>
+    table {
+        border-collapse: collapse;
+    }
+    td {
+        border: 1px solid gray;
+        padding: 10px;
+    }
+</style>
+
+<%- include('../_partial/footer') %>

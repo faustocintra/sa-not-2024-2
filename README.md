@@ -55,3 +55,10 @@ Após clonar o repositório executamos o seguinte processo:
     ```
     > [!NOTE]
     > Nesta situação, estamos deletando a tabela users.
+
+- Voltamos para o database e criamos uma nova tabela chamada **comments** e adicionamos 3 colunas:
+    - id tipo int8 único e auto incremental;
+    - data_time timestamptz valor atual;
+    - comment tipo texto
+
+- Após adicionado a página de Cross-Site Script, é possivel adicionar scripts que se auto-executam após serem adicionados no campo de texto. Você pode tentar gerar um alet ou importar um script malicioso de um outro local. 

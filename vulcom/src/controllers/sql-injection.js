@@ -14,9 +14,14 @@ controller.login = function(req, res) {
 controller.processLogin = async function(req, res) {
     const sql = `
         select * from users 
-        where username = '${req.body.username}' 
-        and password = '${req.body.password}'
+        where username = $1 
+        and password = $2
     `
+    const params  = [
+        req.body.username, 
+        req.body.password
+    ]
+
     /**
      * Usando concatenação de valores
      * em SQL de forma insegura para
@@ -27,7 +32,12 @@ controller.processLogin = async function(req, res) {
         console.log(sql)
         console.log('-'.repeat(80))
 
-        const result = await conn.query(sql)
+        /**
+         * Consulta é feita mesclando 
+         * o texto do sql com os 
+         * parâmetros de forma segura
+         */
+        const result = await conn.query(sql, params)
         if(result.rowCount > 0) res.render(
             'sql-injection/success', { title: 'Autenticado'}
         )
