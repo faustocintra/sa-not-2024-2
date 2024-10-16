@@ -15,6 +15,19 @@ const __dirname = dirname(__filename)
 
 const app = express()
 
+/*
+  O pacote perfect-express-sanitizer sanitiza a entrada de
+  usuário, sendo capaz de neutralizar ameaças de XSS, SQL
+  Injection e NoSQL Injection
+*/
+import sanitizer from 'perfect-express-sanitizer'
+
+app.use(sanitizer.clean({
+  xss: true,
+  sql: true,
+  noSql: true
+}))
+
 // view engine setup
 app.set('views', join(__dirname, 'views'))
 app.set('view engine', 'ejs')

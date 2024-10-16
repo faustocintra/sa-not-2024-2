@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "perfect-express-sanitizer": "^2.0.2"
+  },
+  "devDependencies": {
+    "prisma": "^5.21.0"
+  }
+}
