@@ -18,6 +18,13 @@ const __dirname = dirname(__filename)
 
 const app = express()
 
+/* O pacote express-sanitizer faz a sanitizaçao na entrada
+   do usuário, neutralizando ataques XSS
+*/
+import expressSanitizer from 'express-sanitizer'
+
+app.use(expressSanitizer())
+
 // view engine setup
 app.set('views', join(__dirname, 'views'))
 app.set('view engine', 'ejs')
