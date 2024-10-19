@@ -8,7 +8,7 @@ import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 import indexRouter from './routes/index.js'
-import usersRouter from './routes/users.js'
+//import usersRouter from './routes/users.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -30,8 +30,13 @@ app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(join(__dirname, '../public')))
 
+/***************** ROTAS ****************************/
+
 app.use('/', indexRouter)
-app.use('/users', usersRouter)
+//app.use('/users', usersRouter)
+
+import sqlInjectionRouter from './routes/sql-injection.js'
+app.use('/sql-injection', sqlInjectionRouter)
 
 import xssRouter from './routes/xss.js'
 app.use('/xss', xssRouter)
