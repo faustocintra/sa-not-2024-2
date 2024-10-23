@@ -18,6 +18,9 @@ CREATE TABLE "users" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "comments_id_key" ON "comments"("id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "users_id_key" ON "users"("id");
 
 -- CreateIndex

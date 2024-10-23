@@ -15,12 +15,9 @@ const __dirname = dirname(__filename)
 
 const app = express()
 
-/* O pacote express-sanitizer sanitiza a entrada de
-usuário, sendo capaz de neutralizar ameaças de XSS
- */
-
-import { expressSanitizer } from 'express-sanitizer'
-
+/* O pacote express-sanitizer faz a sanitização da entrada
+   do usuário, neutralizando ataques XSS */
+import expressSanitizer from 'express-sanitizer'
 app.use(expressSanitizer())
 
 // view engine setup
@@ -43,6 +40,9 @@ app.use('/sql-injection', sqlInjectionRouter)
 
 import xssRouter from './routes/xss.js'
 app.use('/xss', xssRouter)
+
+import usersRouter from './routes/users.js'
+app.use('/users', usersRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
