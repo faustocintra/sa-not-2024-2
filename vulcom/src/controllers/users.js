@@ -26,4 +26,13 @@ controller.retrieve = async function(req, res) {
   }
 }
 
+controller.newUser = function(req, res) {
+  res.render('users/form', {
+    title: 'Cadastrar novo usuário',
+    message: '',
+    error: false,
+    user: {}
+  })
+}
+
 export default controller
