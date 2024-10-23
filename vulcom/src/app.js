@@ -15,6 +15,11 @@ const __dirname = dirname(__filename)
 
 const app = express()
 
+/* O pacote express-sanitizer faz a sanitização da entrada
+   do usuário, neutralizando ataques XSS */
+import expressSanitizer from 'express-sanitizer'
+app.use(expressSanitizer())
+
 // view engine setup
 app.set('views', join(__dirname, 'views'))
 app.set('view engine', 'ejs')
@@ -32,6 +37,12 @@ app.use('/', indexRouter)
 
 import sqlInjectionRouter from './routes/sql-injection.js'
 app.use('/sql-injection', sqlInjectionRouter)
+
+import xssRouter from './routes/xss.js'
+app.use('/xss', xssRouter)
+
+import usersRouter from './routes/users.js'
+app.use('/users', usersRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
