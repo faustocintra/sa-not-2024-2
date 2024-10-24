@@ -1,5 +1,6 @@
 import prisma from "../database/client.js";
 const controller = {};
+
 controller.retrieve = async function (req, res) {
   try {
     const users = await prisma.users.findMany();
@@ -19,4 +20,14 @@ controller.retrieve = async function (req, res) {
     });
   }
 };
+
+controller.newUser = function (req, res) {
+  res.render("users/form", {
+    title: "Cadastrar novo usuário",
+    message: "",
+    error: false,
+    user: {},
+  });
+};
+
 export default controller;
