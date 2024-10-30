@@ -1,11 +1,11 @@
+import 'dotenv/config'
+
 import express, { json, urlencoded } from 'express'
 import createError from 'http-errors'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
-import 'dotenv/config'
-
 
 import indexRouter from './routes/index.js'
 //import usersRouter from './routes/users.js'
@@ -15,18 +15,10 @@ const __dirname = dirname(__filename)
 
 const app = express()
 
-/*
-  O pacote perfect-express-sanitizer sanitiza a entrada de
-  usuário, sendo capaz de neutralizar ameaças de XSS, SQL
-  Injection e NoSQL Injection
-*/
-import sanitizer from 'perfect-express-sanitizer'
-
-app.use(sanitizer.clean({
-  xss: true,
-  sql: true,
-  noSql: true
-}))
+/* O pacote express-sanitizer faz a sanitização da entrada
+   do usuário, neutralizando ataques XSS */
+import expressSanitizer from 'express-sanitizer'
+app.use(expressSanitizer())
 
 // view engine setup
 app.set('views', join(__dirname, 'views'))
@@ -45,6 +37,12 @@ app.use('/', indexRouter)
 
 import sqlInjectionRouter from './routes/sql-injection.js'
 app.use('/sql-injection', sqlInjectionRouter)
+
+import xssRouter from './routes/xss.js'
+app.use('/xss', xssRouter)
+
+import usersRouter from './routes/users.js'
+app.use('/users', usersRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
