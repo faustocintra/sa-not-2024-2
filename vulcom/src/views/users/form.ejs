@@ -1,13 +1,13 @@
 <%- include('../_partial/header') %>
 
-<h1>Listagem de usuários</h1>
+<h1><%= title %></h1>
 
 <style>
   .message {
-    padding: 10 mpx;
-    margin: 10 px 0;
+    padding: 10px;
+    margin: 10px 0;
   }
-  .success {
+  .success  {
     border: 1px solid green;
     background: lightgreen;
   }
@@ -21,54 +21,56 @@
   label span.inline {
     display: inline;
   }
-
 </style>
 
 <% if(message) { %>
-  <div class="message <% error ? 'error': 'success' %> ">
-    <%=message %>
+  <div class="message <%= error ? 'error' : 'success' %>">
+    <%= message %>
   </div>
 <% } %>
 
-<form>
+<form method="POST" action="/users">
+  
+  <input type="hidden" name="id" value="<%= user?.id %>">
+
   <div>
     <label>
-      <span> Nome completo</span>
+      <span>Nome completo</span>
       <input name="fullname" value="<%= user?.fullname %>">
     </label>
   </div>
 
   <div>
     <label>
-      <span> Nome de usuário</span>
+      <span>Nome de usuário</span>
       <input name="username" value="<%= user?.username %>">
     </label>
   </div>
 
   <div>
     <label>
-      <span> Email</span>
+      <span>E-mail</span>
       <input name="email" value="<%= user?.email %>">
     </label>
   </div>
 
   <div>
     <label>
-      <span> Confirme o email</span>
-      <input name="confirm-email" value="<%= user?.email %>">
+      <span>Confirme o e-mail</span>
+      <input name="confirm_email" value="<%= user?.confirm_email %>">
     </label>
   </div>
 
   <div>
     <label>
-      <input type="checkbox" name="is_admin" value="<%= user?.is_admin ? 'checked': '' %>>
-      <span class ="inline"> É admin?</span>
+      <input type="checkbox" name="is_admin" <%= user?.is_admin ? 'checked' : '' %>>
+      <span class="inline">É admin?</span>
     </label>
   </div>
 
   <div>
     <label>
-      <span> Senha</span>
+      <span>Senha</span>
       <input type="password" name="password">
     </label>
   </div>
@@ -83,6 +85,32 @@
   <div>
     <button type="submit">Enviar</button>
   </div>
+
+  <script>
+    const form = document.querySelector('form')
+    form.addEventListener('submit', event => {
+
+      const email = document.querySelector('input[name="email"]')
+      const confirm_email = document.querySelector('input[name="confirm_email"]')
+
+      if(email.value !== confirm_email.value) {
+        event.preventDefault()
+        alert('A confirmação do email não coincide com o email.')
+        confirm_email.focus()
+        return false
+      }
+
+      const password = document.querySelector('input[name="password"]')
+      const confirm_password = document.querySelector('input[name="confirm_password"]')
+
+      if(password.value !== confirm_password.value) {
+        event.preventDefault()
+        alert('A confirmação da senha não coincide com a senha.')
+        confirm_password.focus()
+        return false
+      }
+    })
+  </script>
 
 </form>
 <%- include('../_partial/footer') %>
