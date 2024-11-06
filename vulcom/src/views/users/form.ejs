@@ -7,7 +7,7 @@
         padding: 10px;
         margin: 10px 0;
     }
-    .success {
+    .success  {
         border: 1px solid green;
         background: lightgreen;
     }
@@ -25,61 +25,74 @@
 
 <% if(message) { %>
     <div class="message <%= error ? 'error' : 'success' %>">
-        <%= message  %>
+            <%= message %>
     </div>
 <% } %>
 
-<form method="POST" action="/users">
+<% console.log({user}) %>
 
+<form method="POST" action="/users">
+  
     <input type="hidden" name="id" value="<%= user?.id %>">
 
     <div>
-        <label>
-            <span>Nome Completo</span>
-            <input name="fullname" value="<%= user?.fullname %>">
-        </label>
+            <label>
+                <span>Nome completo</span>
+                <input name="fullname" value="<%= user?.fullname %>">
+            </label>
     </div>
 
     <div>
-        <label>
+            <label>
             <span>Nome de usuário</span>
             <input name="username" value="<%= user?.username %>">
-        </label>
+            </label>
     </div>
 
     <div>
-        <label>
+            <label>
             <span>E-mail</span>
             <input name="email" value="<%= user?.email %>">
-        </label>
+            </label>
     </div>
 
     <div>
-        <label>
+            <label>
             <span>Confirme o e-mail</span>
             <input name="confirm_email" value="<%= user?.email %>">
-        </label>
+            </label>
     </div>
 
     <div>
-        <label>
-            <input type="checkbox" name="is_admin" value="<%= user?.is_admin ? 'checked' : '' %>">
+            <label>
+            <input type="checkbox" name="is_admin" <%= user?.is_admin ? 'checked' : '' %>>
             <span class="inline">É admin?</span>
+            </label>
+    </div>
+
+    <div id="change-password" 
+        style="visibility: <%= user?.id ? 'visible' : 'hidden' %>">
+        <label>
+        <input type="checkbox" name="change_password">
+        <span class="inline">Alterar senha?</span>
         </label>
     </div>
 
-    <div>
+    <div id="password-fields"
+        style="visibility: <%= user?.id ? 'hidden' : 'visible' %>">
+        <div>
         <label>
             <span>Senha</span>
             <input type="password" name="password">
         </label>
-    </div>
+        </div>
 
-    <div>
+        <div>
         <label>
             <span>Confirme a senha</span>
             <input type="password" name="confirm_password">
         </label>
+        </div>
     </div>
 
     <div>
@@ -90,27 +103,37 @@
         const form = document.querySelector('form')
         form.addEventListener('submit', event => {
 
-            const email = document.querySelector('input[name="email"]')
-            const confirm_email = document.querySelector('input[name="confirm_email"]')
+        const email = document.querySelector('input[name="email"]')
+        const confirm_email = document.querySelector('input[name="confirm_email"]')
 
-            if(email.value !== confirm_email.value) {
-                event.preventDefault()
-                alert('A confirmação do email não coincide com o email.')
-                confirm_email.focus()                
-                return false
-            }
+        if(email.value !== confirm_email.value) {
+            event.preventDefault()
+            alert('A confirmação do email não coincide com o email.')
+            confirm_email.focus()
+            return false
+        }
 
-            const password = document.querySelector('input[name="password"]')
-            const confirm_password = document.querySelector('input[name="confirm_password"]')
+        const password = document.querySelector('input[name="password"]')
+        const confirm_password = document.querySelector('input[name="confirm_password"]')
 
-            if(password.value !== confirm_password.value) {
-                event.preventDefault()
-                alert('A confirmação da senha não coincide com a senha.')
-                confirm_password.focus()                
-                return false
-            }
+        if(password.value !== confirm_password.value) {
+            event.preventDefault()
+            alert('A confirmação da senha não coincide com a senha.')
+            confirm_password.focus()
+            return false
+        }
+
         })
-    </script>
-</form>
 
+        const change_password = document.querySelector('input[name="change_password"]')
+        const password_fields = document.querySelector('#password-fields')
+
+        change_password.addEventListener('change', event => {
+        const status = event.target.checked ? 'visible' : 'hidden'
+        password_fields.style.visibility = status
+        })
+
+    </script>
+
+</form>
 <%- include('../_partial/footer') %>
