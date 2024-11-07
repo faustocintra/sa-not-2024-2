@@ -1,9 +1,9 @@
 import prisma from '../database/client.js'
+import bcrypt from 'bcrypt'
 
 const controller = {}
 
-// Insere ou atualiza, dependendo se os dados enviados
-// têm o não o valor do campo id
+// Insere ou atualiza, dependendo se os dados enviados têm o não o valor do campo id
 controller.upsert = async function(req, res) {
   try {
 
@@ -13,11 +13,15 @@ controller.upsert = async function(req, res) {
 
     // Converte o valor do campo is_admin para boolean
     req.body.is_admin = (req.body.is_admin === 'on')
+    
+    // Se houver campo password no body da requisição, encripta seu valor com bcrypt, usando 12 passos
+    if(req.body.password) {
+      req.body.password = await bcrypt.hash(req.body.password, 12)
+    }
 
     let message
 
-    // Se existe um valor válido de id em req.body,
-    // faremos a atualização
+    // Se existe um valor válido de id em req.body, faremos a atualização
     if(req.body.id) {
       await prisma.users.update({
         where: { id: Number(req.body.id) },
@@ -39,7 +43,7 @@ controller.upsert = async function(req, res) {
       error: false,
       user: {}
     })
-
+    
   }
   catch(error) {
     console.log(error)
@@ -53,17 +57,56 @@ controller.upsert = async function(req, res) {
 }
 
 controller.retrieve = async function(req, res) {
+    try {
+
+        const users = await prisma.users.findMany({
+          omit: { password: true } // O campo será omitido do resultado
+        })
+
+        console.log({users})
+
+        res.render('users/list', {
+            title: 'Listagem de usuários',
+            users,
+            message: '',
+            error: false
+        })
+
+    }
+    catch(error) {
+        console.log(error)
+        res.render('users/list', {
+            title: 'Listagem de usuários',
+            users: [],
+            message: 'Erro no acesso ao banco de dados',
+            error: true
+        })
+    }
+}
+
+controller.newUser = function(req, res) {
+    res.render('users/form', {
+        title: 'Cadastrar novo usuário',
+        message: '',
+        error: false,
+        user: {}
+    })
+}
+
+controller.editUser = async function(req, res) {
   try {
-
-    const users = await prisma.users.findMany()
-
-    res.render('users/list', {
-      title: 'Listagem de usuários',
-      users,
-      message: '',
-      error: false
+    // Busca o usuário a ser editado
+    const result = await prisma.users.findUnique({
+      where: { id: Number(req.params.id) },
+      omit: { password: true } // O campo será omitido do resultado
     })
 
+    res.render('users/form', {
+      title: 'Editar usuário',
+      message: '',
+      error: false,
+      user: result
+    })
   }
   catch(error) {
     console.log(error)
@@ -73,16 +116,7 @@ controller.retrieve = async function(req, res) {
       message: 'Erro no acesso ao banco de dados',
       error: true
     })
-  }
-}
-
-controller.newUser = function(req, res) {
-  res.render('users/form', {
-    title: 'Cadastrar novo usuário',
-    message: '',
-    error: false,
-    user: {}
-  })
+  }  
 }
 
 export default controller
