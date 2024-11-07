@@ -115,3 +115,15 @@ npx prisma init
 ```bash
 npx prisma migrate dev --name alter_users
 ```
+
+> [!NOTE]
+> Para gerar automaticamente o banco de dados após alguma alteração no arquivo de esquema, use o seguinte comando:
+> ```bash
+> npx prisma generate
+> ```
+
+- Para criptografar as senhas, devemos instalar um pacote. No terminal, navegue até o diretório vulcom e execute o seguinte comando:
+
+```bash
+npm install bcrypt
+```
