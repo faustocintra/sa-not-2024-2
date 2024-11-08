@@ -29,10 +29,12 @@
   </div>
 <% } %>
 
-<form method="POST" action="/users">
+<% console.log({user}) %>
 
-  <input type="hidden" name="id" value="<%= user?.id %>">
+<form method="POST" action="/users">
   
+  <input type="hidden" name="id" value="<%= user?.id %>">
+
   <div>
     <label>
       <span>Nome completo</span>
@@ -57,7 +59,7 @@
   <div>
     <label>
       <span>Confirme o e-mail</span>
-      <input name="confirm_email" value="<%= user?.confirm_email %>">
+      <input name="confirm_email" value="<%= user?.email %>">
     </label>
   </div>
 
@@ -68,18 +70,29 @@
     </label>
   </div>
 
-  <div>
+  <div id="change-password" 
+    style="visibility: <%= user?.id ? 'visible' : 'hidden' %>">
     <label>
-      <span>Senha</span>
-      <input type="password" name="password">
+      <input type="checkbox" name="change_password">
+      <span class="inline">Alterar senha?</span>
     </label>
   </div>
 
-  <div>
-    <label>
-      <span>Confirme a senha</span>
-      <input type="password" name="confirm_password">
-    </label>
+  <div id="password-fields"
+     style="visibility: <%= user?.id ? 'hidden' : 'visible' %>">
+    <div>
+      <label>
+        <span>Senha</span>
+        <input type="password" name="password">
+      </label>
+    </div>
+
+    <div>
+      <label>
+        <span>Confirme a senha</span>
+        <input type="password" name="confirm_password">
+      </label>
+    </div>
   </div>
 
   <div>
@@ -109,7 +122,17 @@
         confirm_password.focus()
         return false
       }
+
     })
+
+    const change_password = document.querySelector('input[name="change_password"]')
+    const password_fields = document.querySelector('#password-fields')
+
+    change_password.addEventListener('change', event => {
+      const status = event.target.checked ? 'visible' : 'hidden'
+      password_fields.style.visibility = status
+    })
+
   </script>
 
 </form>
