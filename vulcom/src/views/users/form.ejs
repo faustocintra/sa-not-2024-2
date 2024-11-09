@@ -29,6 +29,8 @@
   </div>
 <% } %>
 
+<% console.log({user}) %>
+
 <form method="POST" action="/users">
   
   <input type="hidden" name="id" value="<%= user?.id %>">
@@ -57,7 +59,7 @@
   <div>
     <label>
       <span>Confirme o e-mail</span>
-      <input name="confirm_email" value="<%= user?.confirm_email %>">
+      <input name="confirm_email" value="<%= user?.email %>">
     </label>
   </div>
 
@@ -68,18 +70,30 @@
     </label>
   </div>
 
-  <div>
+  <div id="change-password" 
+    style="visibility: <%= user?.id ? 'visible' : 'hidden' %>">
     <label>
       <span>Senha</span>
-      <input type="password" name="password">
+      <input type="checkbox" name="change_password">
+      <span class="inline">Alterar senha?</span>
     </label>
   </div>
 
   <div>
-    <label>
-      <span>Confirme a senha</span>
-      <input type="password" name="confirm_password">
-    </label>
+    <div id="password-fields"
+     style="visibility: <%= user?.id ? 'hidden' : 'visible' %>">
+    <div>
+      <label>
+        <span>Senha</span>
+        <input type="password" name="password">
+      </label>
+    </div>
+    <div>
+      <label>
+        <span>Confirme a senha</span>
+        <input type="password" name="confirm_password">
+      </label>
+    </div>
   </div>
 
   <div>
