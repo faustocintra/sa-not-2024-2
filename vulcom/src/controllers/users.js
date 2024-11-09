@@ -1,4 +1,5 @@
 import prisma from "../database/client.js";
+import bcrypt from "bcrypt";
 const controller = {};
 
 controller.upsert = async function(req, res) {
@@ -10,6 +11,10 @@ controller.upsert = async function(req, res) {
 
     // Converte o valor do campo is_admin para boolean
     req.body.is_admin = (req.body.is_admin === 'on')
+
+    if(req.body.password) {
+      req.body.password = await bcrypt.hash(req.body.password, 12)
+    }
 
     let message
 
@@ -51,7 +56,9 @@ controller.upsert = async function(req, res) {
 
 controller.retrieve = async function (req, res) {
   try {
-    const users = await prisma.users.findMany();
+    const users = await prisma.users.findMany({
+      omit: { password: true }
+    });
     res.render("users/list", {
       title: "Listagem de usuários",
       users,
@@ -77,5 +84,31 @@ controller.newUser = function (req, res) {
     user: {},
   });
 };
+
+controller.editUser = async function(req, res) {
+  try {
+    // Busca o usuário a ser editado
+    const result = await prisma.users.findUnique({
+      where: { id: Number(req.params.id) },
+      omit: { password: true } // O campo será omitido do resultado
+    })
+    res.render('users/form', {
+      title: 'Editar usuário',
+      message: '',
+      error: false,
+      user: result
+    })
+  } 
+  catch(error) {
+    console.log(error)
+    res.render('users/list', {
+      title: 'Listagem de usuários',
+      users: [],
+      message: 'Erro no acesso ao banco de dados',
+      error: true
+    })
+  }
+  
+}
 
 export default controller;
