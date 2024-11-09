@@ -9,8 +9,8 @@ controller.upsert = async function(req, res) {
   try {
 
     // Apaga os pseudocampos confirm_email e confirm_password
-    if(req.body.confirm_email) delete req.body.confirm_email
-    if(req.body.confirm_password) delete req.body.confirm_password
+    if('confirm_email' in req.body) delete req.body.confirm_email
+    if('confirm_password' in req.body) delete req.body.confirm_password
 
     // Converte o valor do campo is_admin para boolean
     req.body.is_admin = (req.body.is_admin === 'on')
@@ -26,6 +26,15 @@ controller.upsert = async function(req, res) {
     // Se existe um valor válido de id em req.body,
     // faremos a atualização
     if(req.body.id) {
+
+      // Enviaremos a senha para o banco de dados apenas se
+      // o valor do campo change_password for 'on'
+      if(req.body?.change_password !== 'on') {
+        if('password' in req.body) delete req.body.password
+      }
+
+      if('change_password' in req.body) delete req.body.change_password
+
       await prisma.users.update({
         where: { id: Number(req.body.id) },
         data: req.body
@@ -34,8 +43,9 @@ controller.upsert = async function(req, res) {
     }
     // Senão, será feita uma inserção
     else {
-      // Apaga o pseudocampo do id
+      // Apaga oa pseudocampos id e change_password
       delete req.body.id
+      if('change_password' in req.body) delete req.body.change_password
       await prisma.users.create({ data: req.body })
       message = 'Usuário cadastrado com sucesso' 
     }
