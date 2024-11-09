@@ -27,15 +27,19 @@
     <th>Excluir</th>
   </tr>
 
-  <% for(let user of users) { %>
+  <% for (let user of users) { %>
     <tr>
       <td><%= user.id %></td>
       <td><%= user.fullname %></td>
       <td><%= user.username %></td>
       <td><%= user.email %></td>
-      <td><input type="checkbox" readonly <% user.is_admin ? 'checked' : '' %></td>
+      <td><input type="checkbox" readonly <% user.is_admin ? 'checked' : '' %>></td>
       <td><a href="/users/<%= user.id %>">[Editar]</a></td>
-      <td><a href="#">[Excluir]</a></td>
+      <td>
+        <form method="POST" action="/users/<%= user.id %>/delete" style="display:inline;">
+          <button type="submit">[Excluir]</button>
+        </form>
+      </td>
     </tr>
   <% } %>
 </table>
