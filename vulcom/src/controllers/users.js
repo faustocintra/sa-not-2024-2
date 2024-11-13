@@ -1,4 +1,5 @@
 import prisma from "../database/client.js";
+import bcrypt from 'bcrypt'
 
 const controller = {}
 
@@ -6,12 +7,21 @@ const controller = {}
 // tem ou não o valor do campo id
 controller.upsert = async function(req, res) {
     try {
+
         // Apaga os pseudoscampos
         if(req.body.confirm_email) delete req.body.confirm_email
         if(req.body.confirm_password) delete req.body.confirm_password
+
         // Converte o valor do campo is_admin para boolean
         req.body.is_admin = (req.body.is_admin === 'on')
+
+        // Se houver o campo password no body da requisição
+        // encripta seu valor com bcrypt, usando 12 passos
+        if (req.body.password) {
+            req.body.password = await bcrypt.hash(req.body.password, 12)
+        }
         let message
+
         // Se existe um valor válido de id em req.body,
         // faremos a atualização
         if(req.body.id) {
@@ -28,12 +38,14 @@ controller.upsert = async function(req, res) {
             await prisma.users.create({ data: req.body })
             message = 'Usuário cadastrado com sucesso'
         }
+
         res.render('users/form', {
             title: 'Cadastrar novo usuário',
             message,
             error: false,
             user: {}
         })
+
     } catch(error) {
         console.log(error)
         res.render('users/form', {
@@ -44,10 +56,14 @@ controller.upsert = async function(req, res) {
         })
     }
 }
+
 controller.retrieve = async function(req, res) {
     try {
 
-        const users = await prisma.users.findMany()
+        const users = await prisma.users.findMany({
+            omit: {password: true} // O campo será omitido do resultado
+        })
+        console.log({users})
 
         res.render('users/list', {
             title: 'Listagem de usuários',
@@ -75,3 +91,29 @@ controller.newUser = function(req, res) {
         user: {}
     })
 }
+
+controller.editUser = async function(req, res) {
+    try {
+        // Busca o usuário  a ser editado
+        const result = await prisma.users.findUnique({
+            where: { id: Number(req.params.id)},
+            omit: {password: true} // O campo será omitido do resultado
+        })
+        res.render('users/form', {
+            title: 'Editar usuário',
+            message: '',
+            error: false,
+            user: result
+        })
+    }
+    catch (error) {
+        console.log(error)
+        res.render('users/list', {
+            title: 'Listagem de usuários',
+            users: [],
+            message: 'Erro no acesso ao banco de dados',
+            error: true
+        })
+    }
+}
+export default controller
