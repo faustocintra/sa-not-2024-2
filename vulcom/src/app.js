@@ -8,15 +8,14 @@ import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 import indexRouter from './routes/index.js'
-//import usersRouter from './routes/users.js'
+// import usersRouter from './routes/users.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const app = express()
 
-/* O pacote express-sanitizer faz a sanitização da entrada
-   do usuário, neutralizando ataques XSS */
+// O pacote express-sanitizer faz a sanitização da entrada do usuário, neutralizando ataques XSS
 import expressSanitizer from 'express-sanitizer'
 app.use(expressSanitizer())
 

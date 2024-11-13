@@ -26,14 +26,13 @@ controller.index = async function(req, res) {
 
 controller.create = async function(req, res) {
   try {
-
     // Sanitização simples da entrada do usuário para evitar XSS
     // Troca todas as ocorrências de '<' por '&lt;'
     // req.body.comment = req.body.comment.replaceAll('<', '&lt;')
 
     let sql = 'insert into comments (comment) values ($1)'
-    // req.sanitize é fornecido pelo pacote express-sanitizer
-    // e configurado no arquivo app.js
+    
+    // req.sanitize é fornecido pelo pacote express-sanitizer e configurado no arquivo app.js
     const params = [req.sanitize(req.body.comment)]
 
     await conn.query(sql, params)
