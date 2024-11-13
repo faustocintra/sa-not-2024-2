@@ -7,6 +7,5 @@
 -- AlterTable
 ALTER TABLE "users" ADD COLUMN     "email" TEXT NOT NULL,
 ADD COLUMN     "fullname" TEXT NOT NULL;
-
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
