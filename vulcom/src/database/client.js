@@ -4,7 +4,8 @@ const prisma = new PrismaClient({
   log: [ { emit: 'event', level: 'query' }]
 })
 
-// Exibe no console as consultas SQL enviadas ao banco de dados
+// Exibe no console as consultas SQL enviadas
+// ao banco de dados
 prisma.$on('query', event => {
   console.log('-'.repeat(60))
   console.log(event.query)
