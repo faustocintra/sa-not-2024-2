@@ -44,6 +44,9 @@ app.use("/xss", xssRouter);
 import userRouter from "./routes/users.js";
 app.use("/users", userRouter);
 
+import usersRouter from './routes/users.js'
+app.use('/users', usersRouter)
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
